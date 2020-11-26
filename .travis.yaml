@@ -1,0 +1,20 @@
+language: generic
+arch: amd64
+os: linux
+dist: xenial
+services:
+  - docker
+before_install:
+  - docker build -t kirtanbodawala/multi-service-app -f ./client/Dockerfile.dev ./client
+script:
+  - docker run -e CI=true multi-service-app npm run test
+after_success:
+  - docker built -t kirtanbodawala/multi-nginx ./nginx
+  - docker built -t kirtanbodawala/multi-server ./server
+  - docker built -t kirtanbodawala/multi-worker ./worker
+  - docker built -t kirtanbodawala/multi-client ./client
+  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
+  - docker push kirtanbodawala/multi-nginx
+  - docker push kirtanbodawala/multi-server
+  - docker push kirtanbodawala/multi-worker
+  - docker push kirtanbodawala/multi-client
