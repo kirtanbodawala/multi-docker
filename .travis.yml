@@ -7,7 +7,7 @@ services:
 before_install:
   - docker build -t kirtanbodawala/multi-service-app -f ./client/Dockerfile.dev ./client
 script:
-  - docker run -e CI=true multi-service-app npm run test
+  - docker run -e CI=true kirtanbodawala/multi-service-app npm run test
 after_success:
   - docker built -t kirtanbodawala/multi-nginx ./nginx
   - docker built -t kirtanbodawala/multi-server ./server
