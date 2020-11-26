@@ -9,10 +9,10 @@ before_install:
 script:
   - docker run -e CI=true kirtanbodawala/multi-service-app npm run test
 after_success:
-  - docker built -t kirtanbodawala/multi-nginx ./nginx
-  - docker built -t kirtanbodawala/multi-server ./server
-  - docker built -t kirtanbodawala/multi-worker ./worker
-  - docker built -t kirtanbodawala/multi-client ./client
+  - docker build -t kirtanbodawala/multi-nginx ./nginx
+  - docker build -t kirtanbodawala/multi-server ./server
+  - docker build -t kirtanbodawala/multi-worker ./worker
+  - docker build -t kirtanbodawala/multi-client ./client
   - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
   - docker push kirtanbodawala/multi-nginx
   - docker push kirtanbodawala/multi-server
